@@ -1,0 +1,17 @@
+---
+- name: "Ensure {{ dest_location }} directory exists"
+  file:
+    path: "{{ dest_location }}"
+    state: directory
+
+- name: Download the file
+  azure_rm_storageblob:
+    tenant: "{{ lookup('env','AZURE_TENANT') }}"
+    subscription_id: "{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}"
+    client_id: "{{ lookup('env','AZURE_CLIENT_ID') }}"
+    secret: "{{ lookup('env','AZURE_SECRET') }}"
+    resource_group: "{{ lookup('env','AZURE_RESOURCE_GROUP') }}"
+    storage_account_name: "{{ lookup('env','AZURE_STORAGE_ACCOUNT') }}"
+    container: "{{ lookup('env','AZURE_BLOB_CONTAINER') }}"
+    blob: "{{ project }}/{{ blob_file }}"
+    dest: "{{ dest_location }}/{{ blob_file }}"
